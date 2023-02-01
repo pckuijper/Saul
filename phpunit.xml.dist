@@ -20,6 +20,7 @@
     <testsuites>
         <testsuite name="Saul test suite">
             <directory>tests/testcase</directory>
+            <directory>lib/php-extension/tests</directory>
         </testsuite>
     </testsuites>
 

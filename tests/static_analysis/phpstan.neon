@@ -2,5 +2,6 @@ parameters:
     level: max
     paths:
         - ../../src
+        - ../../lib/php-extension/src
         - ../../tests
     tmpDir: ../../var/cache/phpstan

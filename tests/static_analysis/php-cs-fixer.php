@@ -3,6 +3,8 @@
 $finder = (new PhpCsFixer\Finder())
     ->in([
         dirname(__FILE__, 3) . '/src',
+        dirname(__FILE__, 3) . '/lib/php-extension/src',
+        dirname(__FILE__, 3) . '/lib/php-extension/tests',
         dirname(__FILE__, 3) . '/tests',
     ])
     ->name('*.php');

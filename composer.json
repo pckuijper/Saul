@@ -41,12 +41,14 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Saul\\": "src/"
+            "Saul\\": "src/",
+            "Saul\\PhpExtension\\": "lib/php-extension/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Saul\\Test\\": "tests/"
+            "Saul\\Test\\": "tests/",
+            "Saul\\PhpExtension\\Test\\": "lib/php-extension/tests/"
         }
     },
     "config": {
