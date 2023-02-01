@@ -1,10 +1,8 @@
 {
     "name": "pckuijper/saul",
     "description": "A simple album and artist viewer",
-    "type": "project",
     "license": "mit",
-    "minimum-stability": "stable",
-    "prefer-stable": true,
+    "type": "project",
     "require": {
         "php": ">=8.1",
         "ext-ctype": "*",
@@ -17,23 +15,7 @@
         "symfony/yaml": "6.2.*"
     },
     "require-dev": {
-    },
-    "config": {
-        "allow-plugins": {
-            "symfony/flex": true,
-            "symfony/runtime": true
-        },
-        "sort-packages": true
-    },
-    "autoload": {
-        "psr-4": {
-            "Saul\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Saul\\Test\\": "tests/"
-        }
+        "ergebnis/composer-normalize": "*"
     },
     "replace": {
         "symfony/polyfill-ctype": "*",
@@ -44,25 +26,45 @@
         "symfony/polyfill-php80": "*",
         "symfony/polyfill-php81": "*"
     },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
-    },
     "conflict": {
         "symfony/symfony": "*"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Saul\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Saul\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true,
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
     },
     "extra": {
         "symfony": {
             "allow-contrib": false,
             "require": "6.2.*"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
     }
 }
