@@ -18,5 +18,9 @@ services:
         exclude:
             - '../src/Infrastructure/Framework/Symfony/Kernel.php'
 
+
+    Saul\Core\Port\Persistence\PersistenceServiceInterface:
+      public: true
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
