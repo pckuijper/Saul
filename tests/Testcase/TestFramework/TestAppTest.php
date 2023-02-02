@@ -6,6 +6,7 @@ namespace Saul\Test\Testcase\TestFramework;
 
 use Saul\Test\Framework\AbstractSaulTestcase;
 use Saul\Test\Framework\TestApp;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * @small
@@ -21,8 +22,9 @@ final class TestAppTest extends AbstractSaulTestcase
     {
         $testApp = new TestApp();
 
-        $output = $testApp->runCliCommand('about');
+        $result = $testApp->runCliCommand('about');
 
-        self::assertNotEmpty($output);
+        self::assertSame(Command::SUCCESS, $result->statusCode);
+        self::assertNotEmpty($result->output);
     }
 }

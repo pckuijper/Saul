@@ -42,7 +42,7 @@ final class TestApp
         array $arguments = [],
         array $inputs = [],
         array $options = []
-    ): string {
+    ): CommandOutput {
         $this->cliApp = $this->cliApp ?? new Application(
             $this->getKernel()
         );
@@ -51,7 +51,10 @@ final class TestApp
         $commandTester->setInputs($inputs);
         $commandTester->execute($arguments, $options);
 
-        return $commandTester->getDisplay();
+        return new CommandOutput(
+            $commandTester->getStatusCode(),
+            $commandTester->getDisplay()
+        );
     }
 
     private function getKernel(): KernelInterface
