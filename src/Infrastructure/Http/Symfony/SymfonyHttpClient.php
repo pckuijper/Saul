@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Saul\Infrastructure\Http\Symfony;
 
 use Nyholm\Psr7\Request;
+use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Saul\Core\Port\Http\HttpClientInterface;
-use Symfony\Component\HttpClient\Psr18Client;
 
 final class SymfonyHttpClient implements HttpClientInterface
 {
@@ -15,7 +15,7 @@ final class SymfonyHttpClient implements HttpClientInterface
     private const HTTP_POST = 'POST';
 
     public function __construct(
-        private Psr18Client $httpClient
+        private ClientInterface $httpClient
     ) {
     }
 
