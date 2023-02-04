@@ -8,28 +8,32 @@ use Nyholm\Psr7\Request;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Saul\Core\Port\Http\HttpClientInterface;
+use Saul\PhpExtension\Http\HttpMethod;
 
 final class SymfonyHttpClient implements HttpClientInterface
 {
-    private const HTTP_GET = 'GET';
-    private const HTTP_POST = 'POST';
-
     public function __construct(
         private ClientInterface $httpClient
     ) {
     }
 
-    public function get(string $url): ResponseInterface
+    /**
+     * @param array<string, string> $headers
+     */
+    public function get(string $url, array $headers = []): ResponseInterface
     {
         return $this->httpClient->sendRequest(
-            new Request(self::HTTP_GET, $url)
+            new Request(HttpMethod::GET->name, $url, $headers)
         );
     }
 
-    public function post(string $url): ResponseInterface
+    /**
+     * @param array<string, string> $headers
+     */
+    public function post(string $url, array $headers = []): ResponseInterface
     {
         return $this->httpClient->sendRequest(
-            new Request(self::HTTP_POST, $url)
+            new Request(HttpMethod::POST->name, $url, $headers)
         );
     }
 }

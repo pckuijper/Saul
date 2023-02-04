@@ -8,7 +8,13 @@ use Psr\Http\Message\ResponseInterface;
 
 interface HttpClientInterface
 {
-    public function get(string $url): ResponseInterface;
+    /**
+     * @param array<string, string> $headers
+     */
+    public function get(string $url, array $headers = []): ResponseInterface;
 
-    public function post(string $url): ResponseInterface;
+    /**
+     * @param array<string, string> $headers
+     */
+    public function post(string $url, array $headers = []): ResponseInterface;
 }

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Saul\Test\Testcase\Infrastructure\Http\Symfony;
 
 use Saul\Core\Port\Http\HttpClientInterface;
+use Saul\Infrastructure\Http\Nyholm\NyholmResponseFactory;
 use Saul\Infrastructure\Http\Symfony\SymfonyHttpClient;
-use Saul\PhpExtension\Http\HttpResponseStatus;
+use Saul\PhpExtension\Http\ContentTypeHttpHeader;
+use Saul\PhpExtension\Http\HttpMethod;
 use Saul\Test\Framework\AbstractSaulTestcase;
-use Symfony\Component\HttpClient\MockHttpClient;
-use Symfony\Component\HttpClient\Psr18Client;
-use Symfony\Component\HttpClient\Response\MockResponse;
+use Saul\Test\Framework\MockHttpClient;
 
 /**
  * @micro
@@ -20,10 +20,12 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 final class SymfonyHttpClientTest extends AbstractSaulTestcase
 {
     private MockHttpClient $mockClient;
+    private NyholmResponseFactory $responseFactory;
 
     protected function setUp(): void
     {
         $this->mockClient = new MockHttpClient();
+        $this->responseFactory = new NyholmResponseFactory();
     }
 
     /**
@@ -40,14 +42,33 @@ final class SymfonyHttpClientTest extends AbstractSaulTestcase
     public function it_can_send_a_get_request(): void
     {
         $client = $this->getClient();
-        $responseBody = 'OK response';
-        $this->setResponseBody($responseBody);
+        $this->mockClient->setupNextResponse($this->responseFactory->create());
 
-        $response = $client->get('https://test-url.com/');
+        $client->get('test-url');
 
-        self::assertSame(HttpResponseStatus::OK, $response->getStatusCode());
-        self::assertSame($responseBody, $response->getBody()->getContents());
-        self::assertSame(1, $this->mockClient->getRequestsCount());
+        $lastRequest = $this->mockClient->getLastRequest();
+        self::assertSame(HttpMethod::GET->name, $lastRequest->getMethod());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_specify_headers_on_get_requests(): void
+    {
+        $client = $this->getClient();
+        $this->mockClient->setupNextResponse($this->responseFactory->create());
+
+        $client->get(
+            'https://test-url.com/',
+            [
+                ContentTypeHttpHeader::NAME => ContentTypeHttpHeader::VALUE_APPLICATION_JSON,
+            ]
+        );
+
+        $lastRequest = $this->mockClient->getLastRequest();
+        $contentTypeHeader = $lastRequest->getHeader(ContentTypeHttpHeader::NAME);
+
+        self::assertContains(ContentTypeHttpHeader::VALUE_APPLICATION_JSON, $contentTypeHeader);
     }
 
     /**
@@ -56,26 +77,39 @@ final class SymfonyHttpClientTest extends AbstractSaulTestcase
     public function it_can_send_a_post_request(): void
     {
         $client = $this->getClient();
+        $this->mockClient->setupNextResponse($this->responseFactory->create());
 
-        $response = $client->post('https://some-url.com/');
+        $client->post('https://some-url.com/');
 
-        self::assertSame(HttpResponseStatus::OK, $response->getStatusCode());
-        self::assertSame(1, $this->mockClient->getRequestsCount());
+        $lastRequest = $this->mockClient->getLastRequest();
+        self::assertSame(HttpMethod::POST->name, $lastRequest->getMethod());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_specify_headers_on_post_request(): void
+    {
+        $client = $this->getClient();
+        $this->mockClient->setupNextResponse($this->responseFactory->create());
+
+        $client->post(
+            'https://test-url.com/',
+            [
+                ContentTypeHttpHeader::NAME => ContentTypeHttpHeader::VALUE_APPLICATION_JSON,
+            ]
+        );
+
+        $lastRequest = $this->mockClient->getLastRequest();
+        $contentTypeHeader = $lastRequest->getHeader(ContentTypeHttpHeader::NAME);
+
+        self::assertContains(ContentTypeHttpHeader::VALUE_APPLICATION_JSON, $contentTypeHeader);
     }
 
     private function getClient(): HttpClientInterface
     {
         return new SymfonyHttpClient(
-            new Psr18Client(
-                $this->mockClient
-            )
-        );
-    }
-
-    private function setResponseBody(string $body): void
-    {
-        $this->mockClient->setResponseFactory(
-            new MockResponse($body)
+            $this->mockClient
         );
     }
 }

@@ -15,10 +15,9 @@ use Symfony\Component\HttpClient\MockHttpClient as SymfonyMockHttpClient;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
-final class MockHttpClient implements HttpClientInterface
+final class MockHttpClient implements HttpClientInterface, ClientInterface
 {
     private SpyHttpClient $spyClient;
-
     private HttpClientInterface $httpClient;
 
     /** @var MockResponse[] */
@@ -30,14 +29,25 @@ final class MockHttpClient implements HttpClientInterface
         $this->httpClient = $this->createClient();
     }
 
-    public function get(string $url): ResponseInterface
+    public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        return $this->httpClient->get($url);
+        return $this->spyClient->sendRequest($request);
     }
 
-    public function post(string $url): ResponseInterface
+    /**
+     * @param array<string, string> $headers
+     */
+    public function get(string $url, array $headers = []): ResponseInterface
     {
-        return $this->httpClient->post($url);
+        return $this->httpClient->get($url, $headers);
+    }
+
+    /**
+     * @param array<string, string> $headers
+     */
+    public function post(string $url, array $headers = []): ResponseInterface
+    {
+        return $this->httpClient->post($url, $headers);
     }
 
     public function setupNextResponse(ResponseInterface $response): void
@@ -70,7 +80,7 @@ final class MockHttpClient implements HttpClientInterface
     {
         return function (): MockResponse {
             if (count($this->responses) === 0) {
-                throw new Exception('No resposnes set, use addResponse() first');
+                throw new Exception('No resposnes set, use `setupNextResponse()` first');
             }
 
             return array_shift($this->responses);
