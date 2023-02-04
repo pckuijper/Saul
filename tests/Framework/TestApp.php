@@ -14,10 +14,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class TestApp
 {
+    public ContainerInterface $container;
+
     private KernelBrowser $client;
     private KernelInterface $kernel;
     private Application $cliApp;
-    private ContainerInterface $container;
 
     public function __construct()
     {
