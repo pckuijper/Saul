@@ -4,6 +4,10 @@ doctrine:
         default_table_options:
             charset: utf8mb4
             collation: utf8mb4_0900_ai_ci
+        types:
+            album_id: Saul\Infrastructure\Persistence\Doctrine\Type\AlbumIdType
+            external_album_id: Saul\Infrastructure\Persistence\Doctrine\Type\ExternalAlbumIdType
+            release_date: Saul\Infrastructure\Persistence\Doctrine\Type\ReleaseDateType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
