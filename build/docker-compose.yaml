@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: saul
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Europe/Amsterdam
+    volumes:
+      - mysql:/var/lib/mysql # so that we don't lose our dev/test DBs when we destroy the container
+      - ./mysql8.cnf:/etc/my.cnf
+    command: ['mysqld', '--character-set-server=utf8mb4']
+
+volumes:
+    mysql:

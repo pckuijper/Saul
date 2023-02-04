@@ -1,0 +1,6 @@
+[auto]
+server_uuid=8a94f357-aab4-11df-86ab-c80aa9429562
+
+[mysqld]
+default-authentication-plugin=mysql_native_password
+authentication_policy=mysql_native_password
