@@ -17,9 +17,3 @@ services:
         resource: '../../src/'
         exclude:
             - '../../src/Infrastructure/Framework/Symfony/Kernel.php'
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
-    Saul\Core\Port\Persistence\PersistenceServiceInterface:
-        class: Saul\Test\Framework\InMemoryPersistenceService
-  

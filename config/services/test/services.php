@@ -11,7 +11,8 @@ return function (ContainerConfigurator $container): void {
         ->services()
         ->defaults()
         ->autowire()
-        ->autoconfigure();
+        ->autoconfigure()
+        ->public();
 
     $services->set(PersistenceServiceInterface::class, InMemoryPersistenceService::class);
 };
