@@ -24,7 +24,7 @@ final class SpotifyAlbumDiscoveryService implements AlbumDiscoveryServiceInterfa
 
     public function __construct(
         private HttpClientInterface $httpClient,
-        private SpotifyAuthenticationService $authenticationService
+        private SpotifyAuthenticationServiceInterface $authenticationService
     ) {
     }
 

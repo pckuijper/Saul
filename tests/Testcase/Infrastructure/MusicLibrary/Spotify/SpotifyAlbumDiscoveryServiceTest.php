@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Saul\Core\Port\Http\ResponseFactoryInterface;
 use Saul\Infrastructure\Http\Nyholm\NyholmResponseFactory;
 use Saul\Infrastructure\MusicLibrary\Spotify\SpotifyAlbumDiscoveryService;
-use Saul\Infrastructure\MusicLibrary\Spotify\SpotifyAuthenticationService;
+use Saul\Infrastructure\MusicLibrary\Spotify\SpotifyAuthenticationServiceInterface;
 use Saul\PhpExtension\Http\ContentTypeHttpHeader;
 use Saul\PhpExtension\Http\HttpResponseStatus;
 use Saul\Test\Framework\AbstractSaulTestcase;
@@ -35,7 +35,7 @@ final class SpotifyAlbumDiscoveryServiceTest extends AbstractSaulTestcase
         $mockHttpClient = new MockHttpClient();
         $albumDiscovery = new SpotifyAlbumDiscoveryService(
             $mockHttpClient,
-            new SpotifyAuthenticationService()
+            $this->getSpotifyAuthenticationService()
         );
         $mockHttpClient->setupNextResponse($this->getLatestAlbumResponse());
 
@@ -58,5 +58,15 @@ final class SpotifyAlbumDiscoveryServiceTest extends AbstractSaulTestcase
                 ContentTypeHttpHeader::NAME => ContentTypeHttpHeader::VALUE_APPLICATION_JSON,
             ]
         );
+    }
+
+    private function getSpotifyAuthenticationService(): SpotifyAuthenticationServiceInterface
+    {
+        return new class() implements SpotifyAuthenticationServiceInterface {
+            public function getBearerToken(): string
+            {
+                return 'valid-bearer-token';
+            }
+        };
     }
 }
