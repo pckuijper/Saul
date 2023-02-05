@@ -22,4 +22,15 @@ final class AuthorizationHttpHeaderTest extends AbstractSaulTestcase
         $credentials = 'credentials';
         self::assertSame('Bearer ' . $credentials, AuthorizationHttpHeader::bearer($credentials));
     }
+
+    /**
+     * @test
+     */
+    public function should_format_basic_header_type(): void
+    {
+        self::assertSame(
+            'Basic cm9vdDpzZWNyZXQh',
+            AuthorizationHttpHeader::basic('root', 'secret!')
+        );
+    }
 }

@@ -15,4 +15,15 @@ final class AuthorizationHttpHeader
     {
         return sprintf('%s %s', self::TYPE_BEARER, $credentials);
     }
+
+    public static function basic(string $userName, string $password): string
+    {
+        return sprintf(
+            '%s %s',
+            self::TYPE_BASIC,
+            base64_encode(
+                sprintf('%s:%s', $userName, $password)
+            )
+        );
+    }
 }
