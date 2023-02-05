@@ -34,6 +34,9 @@ final class SpyHttpClient implements ClientInterface
             throw new Exception('No request has been made yet');
         }
 
+        $body = $this->lastRequest->getBody();
+        $body->rewind();
+
         return $this->lastRequest;
     }
 
