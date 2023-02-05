@@ -5,32 +5,32 @@ declare(strict_types=1);
 namespace Saul\Infrastructure\Persistence\Doctrine\Type;
 
 use Exception;
-use Saul\Core\SharedKernel\Component\MusicLibrary\AlbumId;
+use Saul\Core\SharedKernel\Component\MusicLibrary\ArtistId;
 
 /**
- * @extends AbstractUlidIdType<AlbumId>
+ * @extends AbstractUlidIdType<ArtistId>
  */
-final class AlbumIdType extends AbstractUlidIdType
+final class ArtistIdType extends AbstractUlidIdType
 {
     public function getName(): string
     {
-        return 'album_id';
+        return 'artist_id';
     }
 
     protected function getMappedClass(): string
     {
-        return AlbumId::class;
+        return ArtistId::class;
     }
 
     /**
      * @param mixed $value
      */
-    protected function getMappedClassInstance($value): AlbumId
+    protected function getMappedClassInstance($value): ArtistId
     {
         if (is_string($value) === false) {
             throw new Exception('Given value [' . var_export($value, true) . '] is not a string');
         }
 
-        return new AlbumId($value);
+        return new ArtistId($value);
     }
 }

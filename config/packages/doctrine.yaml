@@ -6,7 +6,9 @@ doctrine:
             collation: utf8mb4_0900_ai_ci
         types:
             album_id: Saul\Infrastructure\Persistence\Doctrine\Type\AlbumIdType
+            artist_id: Saul\Infrastructure\Persistence\Doctrine\Type\ArtistIdType
             external_album_id: Saul\Infrastructure\Persistence\Doctrine\Type\ExternalAlbumIdType
+            external_artist_id: Saul\Infrastructure\Persistence\Doctrine\Type\ExternalArtistIdType
             release_date: Saul\Infrastructure\Persistence\Doctrine\Type\ReleaseDateType
     orm:
         auto_generate_proxy_classes: true

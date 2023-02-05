@@ -19,7 +19,7 @@ class Album
         private ReleaseDate $releaseDate,
         private int $totalTracks,
         /** @var Artist[] */
-        private array $artists
+        private $artists
     ) {
         $this->id = new AlbumId();
     }

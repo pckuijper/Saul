@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Saul\Core\Component\MusicLibrary\Domain\Artist;
 
 /** @var ClassMetadata $metadata */
 $builder = new ClassMetadataBuilder($metadata);
@@ -30,4 +31,12 @@ $builder->setTable('music_library__album')
     ->addField(
         'totalTracks',
         'integer'
-    );
+    )
+    ->createManyToMany('artists', Artist::class)
+    ->setJoinTable('music_library__album_artist')
+    ->cascadePersist()
+    ->cascadeMerge()
+    ->cascadeDetach()
+    ->cascadeRefresh()
+    ->orphanRemoval()
+    ->build();
