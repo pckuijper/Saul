@@ -1,0 +1,3 @@
+#!/bin/sh
+
+docker-compose -f build/docker/docker-compose.yaml up -d

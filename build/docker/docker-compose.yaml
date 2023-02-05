@@ -1,6 +1,12 @@
 version: '3.7'
 
 services:
+  php:
+    build:
+      context: ../../
+      dockerfile: build/docker/Dockerfile
+    volumes:
+      - ../../:/usr/src/saul
   mysql:
     image: mysql:8.0
     ports:
@@ -10,7 +16,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       TZ: Europe/Amsterdam
     volumes:
-      - mysql:/var/lib/mysql # so that we don't lose our dev/test DBs when we destroy the container
+      - mysql:/var/lib/saul
       - ./mysql8.cnf:/etc/my.cnf
     command: ['mysqld', '--character-set-server=utf8mb4']
 
