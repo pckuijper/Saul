@@ -19,3 +19,10 @@ Run the code through max level phpstan to check for problems using static analys
 
 ### Code style
 Run cs fixer by using `bin/test-cs`, these can be fixed using `bin/fix-cs`.
+
+## Next steps
+
+- Use a message queue (symfony messenger) to offload logic to workers
+- Fetch more artist information from spotify
+- Fetch related artists and their albums
+- Create CLI viewer of artist data
