@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export PHP_CS_FIXER_IGNORE_ENV=1
+vendor/bin/php-cs-fixer fix --verbose --config=./tests/static_analysis/php-cs-fixer.php --dry-run

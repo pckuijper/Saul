@@ -1,0 +1,16 @@
+#!/bin/sh
+
+bin/docker-build
+bin/docker-up-daemon
+
+# Drop existing database if any
+docker-compose -f build/docker/docker-compose.yaml run --rm php sh -c 'APP_ENV=test bin/console doctrine:database:drop --force'
+docker-compose -f build/docker/docker-compose.yaml run --rm php sh -c 'bin/console doctrine:database:drop --force'
+
+# Create databases
+docker-compose -f build/docker/docker-compose.yaml run --rm php sh -c 'APP_ENV=test bin/console doctrine:database:create --no-interaction'
+docker-compose -f build/docker/docker-compose.yaml run --rm php sh -c 'bin/console doctrine:database:create --no-interaction'
+
+# Run migrations
+docker-compose -f build/docker/docker-compose.yaml run --rm php sh -c 'APP_ENV=test bin/console doctrine:migrations:migrate --no-interaction'
+docker-compose -f build/docker/docker-compose.yaml run --rm php sh -c 'bin/console doctrine:migrations:migrate --no-interaction'
