@@ -118,4 +118,21 @@ final class MockHttpClientTest extends AbstractSaulTestcase
         self::assertSame(HttpMethod::POST->name, $lastRequest->getMethod());
         self::assertSame($expectedBody, $response->getBody()->getContents());
     }
+
+    /**
+     * @test
+     */
+    public function it_can_specify_post_request_body_using_our_own_interface(): void
+    {
+        $mockClient = new MockHttpClient();
+        $mockClient->setupNextResponse($this->responseFactory->create());
+        $expectedBody = 'THE BODY';
+
+        $mockClient->post('http://test-url.com', $expectedBody);
+
+        $lastRequest = $mockClient->getLastRequest();
+
+        self::assertSame(HttpMethod::POST->name, $lastRequest->getMethod());
+        self::assertSame($expectedBody, $lastRequest->getBody()->getContents());
+    }
 }

@@ -95,6 +95,7 @@ final class SymfonyHttpClientTest extends AbstractSaulTestcase
 
         $client->post(
             'https://test-url.com/',
+            null,
             [
                 ContentTypeHttpHeader::NAME => ContentTypeHttpHeader::VALUE_APPLICATION_JSON,
             ]
@@ -104,6 +105,25 @@ final class SymfonyHttpClientTest extends AbstractSaulTestcase
         $contentTypeHeader = $lastRequest->getHeader(ContentTypeHttpHeader::NAME);
 
         self::assertContains(ContentTypeHttpHeader::VALUE_APPLICATION_JSON, $contentTypeHeader);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_set_the_body_of_a_post_request(): void
+    {
+        $client = $this->getClient();
+        $this->mockClient->setupNextResponse($this->responseFactory->create());
+        $expectedBody = 'SOME BODY';
+
+        $client->post(
+            'https://test-url.com/',
+            $expectedBody
+        );
+
+        $lastRequest = $this->mockClient->getLastRequest();
+
+        self::assertSame($expectedBody, $lastRequest->getBody()->getContents());
     }
 
     private function getClient(): HttpClientInterface

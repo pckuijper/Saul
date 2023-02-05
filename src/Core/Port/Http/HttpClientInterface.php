@@ -16,5 +16,5 @@ interface HttpClientInterface
     /**
      * @param array<string, string> $headers
      */
-    public function post(string $url, array $headers = []): ResponseInterface;
+    public function post(string $url, string $body = null, array $headers = []): ResponseInterface;
 }
